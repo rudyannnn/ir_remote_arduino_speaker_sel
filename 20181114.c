@@ -3,41 +3,38 @@
 const int RL=HIGH;   // Relay 표시
 const int RH=LOW;
 
-const int IL=LOW;    // LED 표시
-const int IH=HIGH;
-
 const int IRinputPin=13;
-const int keypad0=0x20DF08F7;
-const int keypad1=0x20DF8877;
-const int keypad2=0x20DF48B7;
-const int keypad3=0x20DFC837;
-const int keypad4=0x20DF28D7;
-const int keypad5=0x20DFA857;
-const int keypad6=0x20DF6897;
 
-const int RelayPin[]={14,15,16,17,19,20,21,22,23,24};
+const int RelayPin[]={24,23,22,21,20,19,17,16,15,14};
+
 const int LED_Pin[]={3,4,6,7,8,10,11};
 
-int RelayOutput_case[][10]={
+const int RelayOutput_case[][10]={
                           {RL,  RL,  RL,  RL,  RH,  RH,  RH,  RL,  RH,  RL},  
                           {RH,  RH,  RH,  RH,  RL,  RL,  RH,  RL,  RL,  RH},  
                           {RH,  RH,  RH,  RH,  RL,  RL,  RH,  RH,  RL,  RH},  
                           {RL,  RL,  RL,  RL,  RL,  RL,  RL,  RH,  RL,  RL},  
                           {RL,  RL,  RL,  RL,  RL,  RL,  RL,  RH,  RL,  RH},  
-                          {RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL}
+                          {RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL},
+                          {RL,  RL,  RL,  RL,  RH,  RH,  RH,  RH,  RH,  RL}  
                           };
-
-int LED_Output_case[][7]={
-                            {IL,  IH,  IH,  IH,  IH,  IH,  IL},  
-                            {IL,  IH,  IL,  IH,  IL,  IH,  IL},  
-                            {IH,  IH,  IL,  IH,  IL,  IH,  IH},  
-                            {IH,  IL,  IL,  IL,  IL,  IL,  IH},  
-                            {IH,  IL,  IL,  IH,  IL,  IL,  IH},  
-                            {IL,  IL,  IL,  IL,  IL,  IL,  IL}
-                            };
 
 IRrecv irrecv(IRinputPin);
 
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  for(int i=0; i<10; i++){
+    pinMode(RelayPin[i], OUTPUT);
+    pinMode(LED_Pin[i], OUTPUT);
+  }
+  
+  digitW(0);
+  
+  irrecv.enableIRIn();  // Start the receiver
+}
 
 void digitW(int a)
 {
@@ -45,19 +42,21 @@ void digitW(int a)
   {
     digitalWrite(RelayPin[i],RelayOutput_case[a][i]);
   }
+  int flag[7]= {
+                RelayOutput_case[a][7],
+                RelayOutput_case[a][6],
+                RelayOutput_case[a][4],
+                RelayOutput_case[a][9] * RelayOutput_case[a][8],
+                RelayOutput_case[a][4],
+                RelayOutput_case[a][6],
+                RelayOutput_case[a][7]
+               };
+  
   for(int j=0; j<7; j++)
   {
-    digitalWrite(LED_Pin[j],LED_Output_case[a][j]);
-  }  
-}
-
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  
-  digitW(5);
-  
-  irrecv.enableIRIn();  // Start the receiver
+    if( flag[j] == 1 )flag[j]=0;else flag[j]=1;
+    digitalWrite(LED_Pin[j],flag[j]);
+  }
 }
 
 //+=============================================================================
@@ -91,6 +90,10 @@ void  ircode (decode_results *results)
   if(results->value==0x20DFA857){   //리모콘5 -- mute
    digitW(5);
   }
+
+  if(results->value==0x20DF6897){   //리모콘6 -- ALL
+   digitW(6);
+  }
 }
 
 //+=============================================================================
@@ -120,4 +123,4 @@ void loop() {
     Serial.println("");           // Blank line between entries
     irrecv.resume();              // Prepare for the next value
   }
-}
+} 
