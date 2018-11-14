@@ -1,10 +1,10 @@
 #include <IRremote.h>
 
-const int RelayOutput_L=HIGH;
-const int RelayOutput_H=LOW;
+const int RL=HIGH;   // Relay 표시
+const int RH=LOW;
 
-const int LED_Output_L=LOW;
-const int LED_Output_H=HIGH;
+const int IL=LOW;    // LED 표시
+const int IH=HIGH;
 
 const int IRinputPin=13;
 const int keypad0=0x20DF08F7;
@@ -18,35 +18,44 @@ const int keypad6=0x20DF6897;
 const int RelayPin[]={14,15,16,17,19,20,21,22,23,24};
 const int LED_Pin[]={3,4,6,7,8,10,11};
 
-int RelayOutput_case0[]={0,0,0,0,1,1,1,0,1,0};
-int RelayOutput_case1[]={1,1,1,1,0,0,1,0,0,1};
-int RelayOutput_case2[]={1,1,1,1,0,0,1,1,0,1};
-int RelayOutput_case3[]={0,0,0,0,0,0,0,1,0,0};
-int RelayOutput_case4[]={0,0,0,0,0,0,0,1,0,1};
-int RelayOutput_case5[]={0,0,0,0,0,0,0,0,0,0};
+int RelayOutput_case[][10]={
+                          {RL,  RL,  RL,  RL,  RH,  RH,  RH,  RL,  RH,  RL},  
+                          {RH,  RH,  RH,  RH,  RL,  RL,  RH,  RL,  RL,  RH},  
+                          {RH,  RH,  RH,  RH,  RL,  RL,  RH,  RH,  RL,  RH},  
+                          {RL,  RL,  RL,  RL,  RL,  RL,  RL,  RH,  RL,  RL},  
+                          {RL,  RL,  RL,  RL,  RL,  RL,  RL,  RH,  RL,  RH},  
+                          {RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL,  RL}
+                          };
 
-int LED_Output_case0[]={0,1,1,1,1,1,0};
-int LED_Output_case1[]={0,1,0,1,0,1,0};
-int LED_Output_case2[]={1,1,0,1,0,1,1};
-int LED_Output_case3[]={1,0,0,0,0,0,1};
-int LED_Output_case4[]={1,0,0,1,0,0,1};
-int LED_Output_case5[]={0,0,0,0,0,0,0};
+int LED_Output_case[][7]={
+                            {IL,  IH,  IH,  IH,  IH,  IH,  IL},  
+                            {IL,  IH,  IL,  IH,  IL,  IH,  IL},  
+                            {IH,  IH,  IL,  IH,  IL,  IH,  IH},  
+                            {IH,  IL,  IL,  IL,  IL,  IL,  IH},  
+                            {IH,  IL,  IL,  IH,  IL,  IL,  IH},  
+                            {IL,  IL,  IL,  IL,  IL,  IL,  IL}
+                            };
 
 IRrecv irrecv(IRinputPin);
 
+
+void digitW(int a)
+{
+  for(int i=0; i<10; i++)
+  {
+    digitalWrite(RelayPin[i],RelayOutput_case[a][i]);
+  }
+  for(int j=0; j<7; j++)
+  {
+    digitalWrite(LED_Pin[j],LED_Output_case[a][j]);
+  }  
+}
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   
-  for(int i=0; i<10; i++)
-  {
-    digitalWrite(RelayPin[i],RelayOutput_case5[i]);
-  }
-  for(int i=0; i<7; i++)
-  {
-    digitalWrite(LED_Pin[i],LED_Output_case5[i]);
-  }
+  digitW(5);
   
   irrecv.enableIRIn();  // Start the receiver
 }
@@ -60,75 +69,27 @@ void  ircode (decode_results *results)
   Serial.print(results->value, HEX);
 
   if(results->value==0x20DF08F7){   //리모콘0 -- 돌비 3.2.2 CH
-
-    for(int i=0; i<10; i++)
-    {
-      digitalWrite(RelayPin[i],RelayOutput_case0[i]);
-    }
-    for(int i=0; i<7; i++)
-    {
-      digitalWrite(LED_Pin[i],LED_Output_case0[i]);
-    }
+   digitW(0);
   }
 
   if(results->value==0x20DF8877){   //리모콘1 -- CSO 3.2 CH
-
-    for(int i=0; i<10; i++)
-    {
-      digitalWrite(RelayPin[i],RelayOutput_case1[i]);
-    }
-    for(int i=0; i<7; i++)
-    {
-      digitalWrite(LED_Pin[i],LED_Output_case1[i]);
-    }
+   digitW(1);
   }
 
   if(results->value==0x20DF48B7){   //리모콘2 -- CSO 3.2ch + B&W 2ch
-
-    for(int i=0; i<10; i++)
-    {
-      digitalWrite(RelayPin[i],RelayOutput_case2[i]);
-    }
-    for(int i=0; i<7; i++)
-    {
-      digitalWrite(LED_Pin[i],LED_Output_case2[i]);
-    }
+   digitW(2);
   }
 
   if(results->value==0x20DFC837){   //리모콘3 -- B&W 2ch
-
-    for(int i=0; i<10; i++)
-    {
-      digitalWrite(RelayPin[i],RelayOutput_case3[i]);
-    }
-    for(int i=0; i<7; i++)
-    {
-      digitalWrite(LED_Pin[i],LED_Output_case3[i]);
-    }
+   digitW(3);
   }
 
   if(results->value==0x20DF28D7){   //리모콘4 -- B&W 2ch + Center CSO
-
-    for(int i=0; i<10; i++)
-    {
-      digitalWrite(RelayPin[i],RelayOutput_case4[i]);
-    }
-    for(int i=0; i<7; i++)
-    {
-      digitalWrite(LED_Pin[i],LED_Output_case4[i]);
-    }
+   digitW(4);
   }
 
   if(results->value==0x20DFA857){   //리모콘5 -- mute
-
-    for(int i=0; i<10; i++)
-    {
-      digitalWrite(RelayPin[i],RelayOutput_case5[i]);
-    }
-    for(int i=0; i<7; i++)
-    {
-      digitalWrite(LED_Pin[i],LED_Output_case5[i]);
-    }
+   digitW(5);
   }
 }
 
