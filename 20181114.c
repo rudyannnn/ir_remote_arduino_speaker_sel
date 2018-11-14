@@ -18,31 +18,36 @@ const int keypad6=0x20DF6897;
 const int RelayPin[]={14,15,16,17,19,20,21,22,23,24};
 const int LED_Pin[]={3,4,6,7,8,10,11};
 
+int RelayOutput_case0[]={0,0,0,0,1,1,1,0,1,0}
+int RelayOutput_case1[]={1,1,1,1,0,0,1,0,0,1}
+int RelayOutput_case2[]={1,1,1,1,0,0,1,1,0,1}
+int RelayOutput_case3[]={0,0,0,0,0,0,0,1,0,0}
+int RelayOutput_case4[]={0,0,0,0,0,0,0,1,0,1}
+int RelayOutput_case5[]={0,0,0,0,0,0,0,0,0,0}
+
+int LED_Output_case0[]={0,1,1,1,1,1,0}
+int LED_Output_case1[]={0,1,0,1,0,1,0}
+int LED_Output_case2[]={1,1,0,1,0,1,1}
+int LED_Output_case3[]={1,0,0,0,0,0,1}
+int LED_Output_case4[]={1,0,0,1,0,0,1}
+int LED_Output_case5[]={0,0,0,0,0,0,0}
+
 IRrecv irrecv(IRinputPin);
 
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-    digitalWrite(RelayPin[0],RelayOutput_L);
-    digitalWrite(RelayPin[1],RelayOutput_L);
-    digitalWrite(RelayPin[2],RelayOutput_L);
-    digitalWrite(RelayPin[3],RelayOutput_L);
-    digitalWrite(RelayPin[4],RelayOutput_L);
-    digitalWrite(RelayPin[5],RelayOutput_L);
-    digitalWrite(RelayPin[6],RelayOutput_L);
-    digitalWrite(RelayPin[7],RelayOutput_L);
-    digitalWrite(RelayPin[8],RelayOutput_L);
-    digitalWrite(RelayPin[9],RelayOutput_L);
-    
-    digitalWrite(LED_Pin[0],LED_Output_L);
-    digitalWrite(LED_Pin[1],LED_Output_L);
-    digitalWrite(LED_Pin[2],LED_Output_L);
-    digitalWrite(LED_Pin[3],LED_Output_L);
-    digitalWrite(LED_Pin[4],LED_Output_L);
-    digitalWrite(LED_Pin[5],LED_Output_L);
-    digitalWrite(LED_Pin[6],LED_Output_L);
-
+  
+  for(int i=0; i<10; i++)
+  {
+    digitalWrite(RelayPin[i],RelayOutput_case0[i]);
+  }
+  for(int i=0; i<7; i++)
+  {
+    digitalWrite(LED_Pin[i],LED_Output_case0[i]);
+  }
+  
   irrecv.enableIRIn();  // Start the receiver
 }
 
@@ -55,150 +60,75 @@ void  ircode (decode_results *results)
   Serial.print(results->value, HEX);
 
   if(results->value==0x20DF08F7){   //리모콘0 -- 돌비 3.2.2 CH
-    digitalWrite(RelayPin[0],RelayOutput_L);
-    digitalWrite(RelayPin[1],RelayOutput_L);
-    digitalWrite(RelayPin[2],RelayOutput_L);
-    digitalWrite(RelayPin[3],RelayOutput_L);
-    digitalWrite(RelayPin[4],RelayOutput_H);
-    digitalWrite(RelayPin[5],RelayOutput_H);
-    digitalWrite(RelayPin[6],RelayOutput_H);
-    digitalWrite(RelayPin[7],RelayOutput_L);
-    digitalWrite(RelayPin[8],RelayOutput_H);
-    digitalWrite(RelayPin[9],RelayOutput_L);
-    
-    digitalWrite(LED_Pin[0],LED_Output_L);
-    digitalWrite(LED_Pin[1],LED_Output_H);
-    digitalWrite(LED_Pin[2],LED_Output_H);
-    digitalWrite(LED_Pin[3],LED_Output_H);
-    digitalWrite(LED_Pin[4],LED_Output_H);
-    digitalWrite(LED_Pin[5],LED_Output_H);
-    digitalWrite(LED_Pin[6],LED_Output_L);
+
+    for(int i=0; i<10; i++)
+    {
+      digitalWrite(RelayPin[i],RelayOutput_case0[i]);
+    }
+    for(int i=0; i<7; i++)
+    {
+      digitalWrite(LED_Pin[i],LED_Output_case0[i]);
+    }
   }
 
   if(results->value==0x20DF8877){   //리모콘1 -- CSO 3.2 CH
-    digitalWrite(RelayPin[0],RelayOutput_H);
-    digitalWrite(RelayPin[1],RelayOutput_H);
-    digitalWrite(RelayPin[2],RelayOutput_H);
-    digitalWrite(RelayPin[3],RelayOutput_H);
-    digitalWrite(RelayPin[4],RelayOutput_L);
-    digitalWrite(RelayPin[5],RelayOutput_L);
-    digitalWrite(RelayPin[6],RelayOutput_H);
-    digitalWrite(RelayPin[7],RelayOutput_L);
-    digitalWrite(RelayPin[8],RelayOutput_L);
-    digitalWrite(RelayPin[9],RelayOutput_H);
-    
-    digitalWrite(LED_Pin[0],LED_Output_L);
-    digitalWrite(LED_Pin[1],LED_Output_H);
-    digitalWrite(LED_Pin[2],LED_Output_L);
-    digitalWrite(LED_Pin[3],LED_Output_H);
-    digitalWrite(LED_Pin[4],LED_Output_L);
-    digitalWrite(LED_Pin[5],LED_Output_H);
-    digitalWrite(LED_Pin[6],LED_Output_L);
+
+    for(int i=0; i<10; i++)
+    {
+      digitalWrite(RelayPin[i],RelayOutput_case1[i]);
+    }
+    for(int i=0; i<7; i++)
+    {
+      digitalWrite(LED_Pin[i],LED_Output_case1[i]);
+    }
   }
 
   if(results->value==0x20DF48B7){   //리모콘2 -- CSO 3.2ch + B&W 2ch
-    digitalWrite(RelayPin[0],RelayOutput_H);
-    digitalWrite(RelayPin[1],RelayOutput_H);
-    digitalWrite(RelayPin[2],RelayOutput_H);
-    digitalWrite(RelayPin[3],RelayOutput_H);
-    digitalWrite(RelayPin[4],RelayOutput_L);
-    digitalWrite(RelayPin[5],RelayOutput_L);
-    digitalWrite(RelayPin[6],RelayOutput_H);
-    digitalWrite(RelayPin[7],RelayOutput_H);
-    digitalWrite(RelayPin[8],RelayOutput_L);
-    digitalWrite(RelayPin[9],RelayOutput_H);
-    
-    digitalWrite(LED_Pin[0],LED_Output_H);
-    digitalWrite(LED_Pin[1],LED_Output_H);
-    digitalWrite(LED_Pin[2],LED_Output_L);
-    digitalWrite(LED_Pin[3],LED_Output_H);
-    digitalWrite(LED_Pin[4],LED_Output_L);
-    digitalWrite(LED_Pin[5],LED_Output_H);
-    digitalWrite(LED_Pin[6],LED_Output_H);
+
+    for(int i=0; i<10; i++)
+    {
+      digitalWrite(RelayPin[i],RelayOutput_case2[i]);
+    }
+    for(int i=0; i<7; i++)
+    {
+      digitalWrite(LED_Pin[i],LED_Output_case2[i]);
+    }
   }
 
   if(results->value==0x20DFC837){   //리모콘3 -- B&W 2ch
-    digitalWrite(RelayPin[0],RelayOutput_L);
-    digitalWrite(RelayPin[1],RelayOutput_L);
-    digitalWrite(RelayPin[2],RelayOutput_L);
-    digitalWrite(RelayPin[3],RelayOutput_L);
-    digitalWrite(RelayPin[4],RelayOutput_L);
-    digitalWrite(RelayPin[5],RelayOutput_L);
-    digitalWrite(RelayPin[6],RelayOutput_L);
-    digitalWrite(RelayPin[7],RelayOutput_H);
-    digitalWrite(RelayPin[8],RelayOutput_L);
-    digitalWrite(RelayPin[9],RelayOutput_L);
-    
-    digitalWrite(LED_Pin[0],LED_Output_H);
-    digitalWrite(LED_Pin[1],LED_Output_L);
-    digitalWrite(LED_Pin[2],LED_Output_L);
-    digitalWrite(LED_Pin[3],LED_Output_L);
-    digitalWrite(LED_Pin[4],LED_Output_L);
-    digitalWrite(LED_Pin[5],LED_Output_L);
-    digitalWrite(LED_Pin[6],LED_Output_H);
+
+    for(int i=0; i<10; i++)
+    {
+      digitalWrite(RelayPin[i],RelayOutput_case3[i]);
+    }
+    for(int i=0; i<7; i++)
+    {
+      digitalWrite(LED_Pin[i],LED_Output_case3[i]);
+    }
   }
 
   if(results->value==0x20DF28D7){   //리모콘4 -- B&W 2ch + Center CSO
-    digitalWrite(RelayPin[0],RelayOutput_L);
-    digitalWrite(RelayPin[1],RelayOutput_L);
-    digitalWrite(RelayPin[2],RelayOutput_L);
-    digitalWrite(RelayPin[3],RelayOutput_L);
-    digitalWrite(RelayPin[4],RelayOutput_L);
-    digitalWrite(RelayPin[5],RelayOutput_L);
-    digitalWrite(RelayPin[6],RelayOutput_L);
-    digitalWrite(RelayPin[7],RelayOutput_H);
-    digitalWrite(RelayPin[8],RelayOutput_L);
-    digitalWrite(RelayPin[9],RelayOutput_H);
-    
-    digitalWrite(LED_Pin[0],LED_Output_H);
-    digitalWrite(LED_Pin[1],LED_Output_L);
-    digitalWrite(LED_Pin[2],LED_Output_L);
-    digitalWrite(LED_Pin[3],LED_Output_H);
-    digitalWrite(LED_Pin[4],LED_Output_L);
-    digitalWrite(LED_Pin[5],LED_Output_L);
-    digitalWrite(LED_Pin[6],LED_Output_H);
+
+    for(int i=0; i<10; i++)
+    {
+      digitalWrite(RelayPin[i],RelayOutput_case4[i]);
+    }
+    for(int i=0; i<7; i++)
+    {
+      digitalWrite(LED_Pin[i],LED_Output_case4[i]);
+    }
   }
 
   if(results->value==0x20DFA857){   //리모콘5 -- mute
-    digitalWrite(RelayPin[0],RelayOutput_L);
-    digitalWrite(RelayPin[1],RelayOutput_L);
-    digitalWrite(RelayPin[2],RelayOutput_L);
-    digitalWrite(RelayPin[3],RelayOutput_L);
-    digitalWrite(RelayPin[4],RelayOutput_L);
-    digitalWrite(RelayPin[5],RelayOutput_L);
-    digitalWrite(RelayPin[6],RelayOutput_L);
-    digitalWrite(RelayPin[7],RelayOutput_L);
-    digitalWrite(RelayPin[8],RelayOutput_L);
-    digitalWrite(RelayPin[9],RelayOutput_L);
-    
-    digitalWrite(LED_Pin[0],LED_Output_L);
-    digitalWrite(LED_Pin[1],LED_Output_L);
-    digitalWrite(LED_Pin[2],LED_Output_L);
-    digitalWrite(LED_Pin[3],LED_Output_L);
-    digitalWrite(LED_Pin[4],LED_Output_L);
-    digitalWrite(LED_Pin[5],LED_Output_L);
-    digitalWrite(LED_Pin[6],LED_Output_L);
-  }
 
-  if(results->value==0x20DF6897){   //리모콘6 -- 3.2.2ch + Ex
-    digitalWrite(RelayPin[0],RelayOutput_H);
-    digitalWrite(RelayPin[1],RelayOutput_H);
-    digitalWrite(RelayPin[2],RelayOutput_H);
-    digitalWrite(RelayPin[3],RelayOutput_H);
-    digitalWrite(RelayPin[4],RelayOutput_H);
-    digitalWrite(RelayPin[5],RelayOutput_H);
-    digitalWrite(RelayPin[6],RelayOutput_H);
-    digitalWrite(RelayPin[7],RelayOutput_H);
-    digitalWrite(RelayPin[8],RelayOutput_H);
-    digitalWrite(RelayPin[9],RelayOutput_H);
-    
-    digitalWrite(LED_Pin[0],LED_Output_H);
-    digitalWrite(LED_Pin[1],LED_Output_H);
-    digitalWrite(LED_Pin[2],LED_Output_H);
-    digitalWrite(LED_Pin[3],LED_Output_H);
-    digitalWrite(LED_Pin[4],LED_Output_H);
-    digitalWrite(LED_Pin[5],LED_Output_H);
-    digitalWrite(LED_Pin[6],LED_Output_H);
+    for(int i=0; i<10; i++)
+    {
+      digitalWrite(RelayPin[i],RelayOutput_case5[i]);
+    }
+    for(int i=0; i<7; i++)
+    {
+      digitalWrite(LED_Pin[i],LED_Output_case5[i]);
+    }
   }
 }
 
