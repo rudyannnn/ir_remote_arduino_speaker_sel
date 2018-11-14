@@ -18,19 +18,19 @@ const int keypad6=0x20DF6897;
 const int RelayPin[]={14,15,16,17,19,20,21,22,23,24};
 const int LED_Pin[]={3,4,6,7,8,10,11};
 
-int RelayOutput_case0[]={0,0,0,0,1,1,1,0,1,0}
-int RelayOutput_case1[]={1,1,1,1,0,0,1,0,0,1}
-int RelayOutput_case2[]={1,1,1,1,0,0,1,1,0,1}
-int RelayOutput_case3[]={0,0,0,0,0,0,0,1,0,0}
-int RelayOutput_case4[]={0,0,0,0,0,0,0,1,0,1}
-int RelayOutput_case5[]={0,0,0,0,0,0,0,0,0,0}
+int RelayOutput_case0[]={0,0,0,0,1,1,1,0,1,0};
+int RelayOutput_case1[]={1,1,1,1,0,0,1,0,0,1};
+int RelayOutput_case2[]={1,1,1,1,0,0,1,1,0,1};
+int RelayOutput_case3[]={0,0,0,0,0,0,0,1,0,0};
+int RelayOutput_case4[]={0,0,0,0,0,0,0,1,0,1};
+int RelayOutput_case5[]={0,0,0,0,0,0,0,0,0,0};
 
-int LED_Output_case0[]={0,1,1,1,1,1,0}
-int LED_Output_case1[]={0,1,0,1,0,1,0}
-int LED_Output_case2[]={1,1,0,1,0,1,1}
-int LED_Output_case3[]={1,0,0,0,0,0,1}
-int LED_Output_case4[]={1,0,0,1,0,0,1}
-int LED_Output_case5[]={0,0,0,0,0,0,0}
+int LED_Output_case0[]={0,1,1,1,1,1,0};
+int LED_Output_case1[]={0,1,0,1,0,1,0};
+int LED_Output_case2[]={1,1,0,1,0,1,1};
+int LED_Output_case3[]={1,0,0,0,0,0,1};
+int LED_Output_case4[]={1,0,0,1,0,0,1};
+int LED_Output_case5[]={0,0,0,0,0,0,0};
 
 IRrecv irrecv(IRinputPin);
 
@@ -41,11 +41,11 @@ void setup() {
   
   for(int i=0; i<10; i++)
   {
-    digitalWrite(RelayPin[i],RelayOutput_case0[i]);
+    digitalWrite(RelayPin[i],RelayOutput_case5[i]);
   }
   for(int i=0; i<7; i++)
   {
-    digitalWrite(LED_Pin[i],LED_Output_case0[i]);
+    digitalWrite(LED_Pin[i],LED_Output_case5[i]);
   }
   
   irrecv.enableIRIn();  // Start the receiver
