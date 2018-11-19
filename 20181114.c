@@ -14,7 +14,7 @@ const int RelayOutput_case[][18]={
     {RH, RH, RL, RL,  RH, RH, RH, RH, RH, RH, RL, RL,   RL, RL, RL, RL, RL, RL},
     {RH, RH, RL, RL,  RH, RH, RH, RH, RH, RH, RH, RH,   RL, RL, RL, RL, RL, RL},
     {RL, RL, RL, RL,  RL, RL, RL, RL, RL, RL, RH, RH,   RL, RL, RL, RL, RL, RL},
-    {RL, RL, RL, RL,  RH, RH, RL, RL, RL, RL, RH, RH,   RH, RH, RL, RL, RL, RL},
+    {RL, RL, RL, RL,  RH, RH, RL, RL, RL, RL, RH, RH,   RL, RL, RL, RL, RL, RL},
     {RL, RL, RL, RL,  RL, RL, RL, RL, RL, RL, RL, RL,   RL, RL, RL, RL, RL, RL},
     {RH, RH, RH, RH,  RH, RH, RH, RH, RH, RH, RH, RH,   RH, RH, RH, RH, RH, RH}
                           };
@@ -27,24 +27,23 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
     pinMode(IRinputPin, INPUT);
-  for(int i=0; i<19; i++){
+  for(int i=0; i<18; i++){
     pinMode(RelayPin[i], OUTPUT);
     pinMode(LED_Pin[i], OUTPUT);
-    delay(50);
+    delay(5);
   }
-  delay(1000);
+  
   digitW(0);
-  delay(1000);
   
   irrecv.enableIRIn();  // Start the receiver
 }
 
 void digitW(int a)
 {
-  for(int i=0; i<19; i++)
+  for(int i=0; i<18; i++)
   {
     digitalWrite(RelayPin[i],RelayOutput_case[a][i]);
-    delay(50);
+    delay(5);
   }
   int flag[7]= {
                 RelayOutput_case[a][10],
@@ -60,7 +59,7 @@ void digitW(int a)
   {
     if( flag[j] == 1 )flag[j]=0;else flag[j]=1;
     digitalWrite(LED_Pin[j],flag[j]);
-    delay(50);
+    delay(5);
   }
 }
 
