@@ -71,31 +71,31 @@ void  ircode (decode_results *results)
   // Print Code
   Serial.print(results->value, HEX);
 
-  if(results->value==0x20DF08F7){   //리모콘0 -- 돌비 3.2.2 CH
+  if(results->value==0x20DF08F7 | results->value==0xD130B09F){   //리모콘0 -- 돌비 3.2.2 CH
    digitW(0);
   }
 
-  if(results->value==0x20DF8877){   //리모콘1 -- CSO 3.2 CH
+  if(results->value==0x20DF8877 | results->value==0x2ADE08A3){   //리모콘1 -- CSO 3.2 CH
    digitW(1);
   }
 
-  if(results->value==0x20DF48B7){   //리모콘2 -- CSO 3.2ch + B&W 2ch
+  if(results->value==0x20DF48B7 | results->value==0x7F613A3B){   //리모콘2 -- CSO 3.2ch + B&W 2ch
    digitW(2);
   }
 
-  if(results->value==0x20DFC837){   //리모콘3 -- B&W 2ch
+  if(results->value==0x20DFC837 | results->value==0x1A46B33F){   //리모콘3 -- B&W 2ch
    digitW(3);
   }
 
-  if(results->value==0x20DF28D7){   //리모콘4 -- B&W 2ch + Center CSO
+  if(results->value==0x20DF28D7 | results->value==0x9F3E1063){   //리모콘4 -- B&W 2ch + Center CSO
    digitW(4);
   }
 
-  if(results->value==0x20DFA857){   //리모콘5 -- mute
+  if(results->value==0x20DFA857 | results->value==0x2FB2625F){   //리모콘5 -- mute
    digitW(5);
   }
 
-  if(results->value==0x20DF6897){   //리모콘6 -- ALL
+  if(results->value==0x20DF6897 | results->value==0x4CEB59FF){   //리모콘6 -- ALL
    digitW(6);
   }
 }
