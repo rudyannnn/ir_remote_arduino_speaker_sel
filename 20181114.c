@@ -72,30 +72,30 @@ void  ircode (decode_results *results)
   int addrflag = digitalRead(IC_AddressPin);
   if(addrflag==HIGH)   /// 왼쪽 8K
   {
-  if(results->value==0x20DFE817 | results->value==0x0000000){   //리모콘7 -- 돌비 3.2.2 CH
+  if(results->value==0x20DFE817 | results->value==0xE7D0D303){   //리모콘7 -- 돌비 3.2.2 CH
    digitW(0);
   }
 
-  if(results->value==0x20DF8877 | results->value==0x0000000){   //리모콘1 -- CSO 3.2ch
+  if(results->value==0x20DF8877 | results->value==0x2ADE08A3){   //리모콘1 -- CSO 3.2ch
    digitW(2);
   }
   
-  if(results->value==0x20DF28D7 | results->value==0x0000000){   //리모콘4 -- mute
+  if(results->value==0x20DF28D7 | results->value==0x9F3E1063){   //리모콘4 -- mute
    digitW(3);
   }
   }
   else if(addrflag==LOW)   /// 오른쪽 8K
   {
     
-  if(results->value==0x20DF9867 | results->value==0x0000000){   //리모콘9 -- 돌비 3.2.2 CH
+  if(results->value==0x20DF9867 | results->value==0x2331B07F){   //리모콘9 -- 돌비 3.2.2 CH
    digitW(0);
   }
 
-  if(results->value==0x20DFC837 | results->value==0x0000000){   //리모콘3 -- CSO 3.2ch
+  if(results->value==0x20DFC837 | results->value==0x1A46B33F){   //리모콘3 -- CSO 3.2ch
    digitW(2);
   }
   
-  if(results->value==0x20DF6897 | results->value==0x0000000){   //리모콘6 -- mute
+  if(results->value==0x20DF6897 | results->value==0x4CEB59FF){   //리모콘6 -- mute
    digitW(3);
   }
   }
