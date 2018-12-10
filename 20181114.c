@@ -4,6 +4,7 @@ const int RL=HIGH;   // Relay 표시
 const int RH=LOW;
 
 const int IRinputPin=13;
+const int IC_AddressPin=2;
 
 const int RelayPin[]={14,15,16,17,  19,20,21,22,23,24,  30,31,32,33,34,35};
 
@@ -24,6 +25,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
     pinMode(IRinputPin, INPUT);
+    pinMode(IC_AddressPin, INPUT);
   for(int i=0; i<16; i++){
     pinMode(RelayPin[i], OUTPUT);
     pinMode(LED_Pin[i], OUTPUT);
@@ -64,24 +66,53 @@ void digitW(int a)
 void  ircode (decode_results *results)
 {
   // Print Code
-  Serial.print(results->value, HEX);
 
-  if(results->value==0x20DF08F7 | results->value==0xD130B09F){   //리모콘0 -- 돌비 3.2.2 CH
+  // 0 
+  Serial.print(results->value, HEX);
+  int addrflag = digitalRead(IC_AddressPin);
+  if(addrflag==HIGH)   /// 왼쪽 8K
+  {
+  if(results->value==0x20DFE817 | results->value==0x0000000){   //리모콘7 -- 돌비 3.2.2 CH
    digitW(0);
   }
 
-  if(results->value==0x20DF8877 | results->value==0x2ADE08A3){   //리모콘1 -- CSO 3.2 CH
-   digitW(1);
+  if(results->value==0x20DF8877 | results->value==0x0000000){   //리모콘1 -- CSO 3.2ch
+   digitW(2);
+  }
+  
+  if(results->value==0x20DF28D7 | results->value==0x0000000){   //리모콘4 -- mute
+   digitW(3);
+  }
+  }
+  else if(addrflag==LOW)   /// 오른쪽 8K
+  {
+    
+  if(results->value==0x20DF9867 | results->value==0x0000000){   //리모콘9 -- 돌비 3.2.2 CH
+   digitW(0);
   }
 
-  if(results->value==0x20DF48B7 | results->value==0x7F613A3B){   //리모콘2 -- CSO 3.2ch + B&W 2ch
+  if(results->value==0x20DFC837 | results->value==0x0000000){   //리모콘3 -- CSO 3.2ch
+   digitW(2);
+  }
+  
+  if(results->value==0x20DF6897 | results->value==0x0000000){   //리모콘6 -- mute
+   digitW(3);
+  }
+  }
+
+  // 8k both
+  
+  if(results->value==0x20DF08F7 | results->value==0xD130B09F){   //리모콘0 -- 돌비 3.2.2 CH
+   digitW(0);
+  }
+  
+  if(results->value==0x20DF48B7 | results->value==0x7F613A3B){   //리모콘2 -- CSO 3.2ch
    digitW(2);
   }
   
   if(results->value==0x20DFA857 | results->value==0x2FB2625F){   //리모콘5 -- mute
    digitW(3);
   }
-  
 }
 
 //+=============================================================================
